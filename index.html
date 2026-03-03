@@ -14,8 +14,12 @@ if (window.matchMedia("(display-mode:standalone)").matches || navigator.standalo
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="./manifest.json">
-<link rel="icon" href="./icon-192.png">
+<link rel="icon" href="./icon-192.webp" type="image/webp">
 <link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="preload" href="./icon-192.webp" as="image" type="image/webp">
+<link rel="preload" href="./screenshot1.webp" as="image" type="image/webp">
+<link rel="preload" href="./screenshot2.webp" as="image" type="image/webp">
+<link rel="preload" href="./screenshot3.webp" as="image" type="image/webp">
 <title>1Win - Google Play'de Uygulamalar</title>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -131,7 +135,7 @@ body{padding-bottom:60px}
 
 <!-- App Block -->
 <div class="app-block">
-  <img class="app-icon" src="./icon-192.png" alt="1Win">
+  <img class="app-icon" src="./icon-192.webp" alt="1Win">
   <div class="app-info">
     <div class="app-name">1Win</div>
     <div class="app-developer">SkyNet Entertainment Ltd.</div>
@@ -146,10 +150,10 @@ body{padding-bottom:60px}
 <div class="stats-row">
   <div class="stat-item">
     <div class="stat-main">4.8 <span class="stat-star">&#9733;</span></div>
-    <div class="stat-sub">12B yorum</div>
+    <div class="stat-sub">12K yorum</div>
   </div>
   <div class="stat-item">
-    <div class="stat-main">500B+</div>
+    <div class="stat-main">500K+</div>
     <div class="stat-sub">&#304;ndirme</div>
   </div>
   <div class="stat-item">
@@ -177,9 +181,9 @@ body{padding-bottom:60px}
 
 <!-- Screenshots -->
 <div class="screenshots" id="screenshots">
-  <img class="screenshot-thumb" src="./screenshot1.png" alt="Screenshot 1" loading="lazy">
-  <img class="screenshot-thumb" src="./screenshot2.png" alt="Screenshot 2" loading="lazy">
-  <img class="screenshot-thumb" src="./screenshot3.png" alt="Screenshot 3" loading="lazy">
+  <img class="screenshot-thumb" src="./screenshot1.webp" alt="Screenshot 1" width="130" height="233">
+  <img class="screenshot-thumb" src="./screenshot2.webp" alt="Screenshot 2" width="130" height="233">
+  <img class="screenshot-thumb" src="./screenshot3.webp" alt="Screenshot 3" width="130" height="233">
 </div>
 
 <!-- Description -->
@@ -247,7 +251,7 @@ body{padding-bottom:60px}
     </div>
     <div class="info-cell">
       <div class="info-cell-label">&#304;ndirme</div>
-      <div class="info-cell-value">500B+</div>
+      <div class="info-cell-value">500K+</div>
     </div>
     <div class="info-cell">
       <div class="info-cell-label">Geli&#351;tirici</div>
@@ -259,7 +263,7 @@ body{padding-bottom:60px}
 <!-- Bottom Bar -->
 <div class="bottom-bar">
   <div class="bottom-left">
-    <img class="bottom-icon" src="./icon-192.png" alt="">
+    <img class="bottom-icon" src="./icon-192.webp" alt="">
     <div class="bottom-name">1Win</div>
   </div>
   <button class="bottom-btn ripple" id="bottomBtn" onclick="handleInstall()">Y&uuml;kle</button>

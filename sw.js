@@ -1,15 +1,17 @@
 // Import OneSignal push worker (merges into same SW scope)
 importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
 
-var CACHE = 'app-v1';
+var CACHE = 'app-v2';
 var SCREENSHOT_COUNT = 3;
 var STATIC = [
   './manifest.json',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './icon-192.webp',
+  './icon-512.webp'
 ];
 for (var i = 1; i <= SCREENSHOT_COUNT; i++) {
-  STATIC.push('./screenshot' + i + '.png');
+  STATIC.push('./screenshot' + i + '.webp');
 }
 
 self.addEventListener('install', function(e) {
