@@ -1,6 +1,6 @@
 {
-  "name": "Fortuna Royale",
-  "short_name": "FortRoyal",
+  "name": "1Win",
+  "short_name": "1Win",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
