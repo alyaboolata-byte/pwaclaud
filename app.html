@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#ffffff">
+<title>Fortuna Royale</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:'Google Sans',Roboto,Arial,sans-serif;overflow:hidden}
+
+.splash{display:flex;flex-direction:column;align-items:center;gap:16px;animation:entrance .5s ease-out forwards;opacity:0;transform:scale(.75)}
+@keyframes entrance{to{opacity:1;transform:scale(1)}}
+
+.splash-icon{width:112px;height:112px;border-radius:24px;box-shadow:0 4px 24px rgba(0,0,0,.15)}
+.splash-name{font-size:26px;font-weight:400;color:#202124}
+
+.spinner{width:32px;height:32px;border:3px solid #e0e0e0;border-top-color:#01875f;border-radius:50%;animation:spin .8s linear infinite;margin-top:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.progress-bar{position:fixed;bottom:0;left:0;height:3px;background:#01875f;width:0;transition:width linear}
+</style>
+</head>
+<body>
+
+<div class="splash">
+  <img class="splash-icon" src="./icon-512.png" alt="Fortuna Royale">
+  <div class="splash-name">Fortuna Royale</div>
+  <div class="spinner"></div>
+</div>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<script>
+var SPLASH_SECONDS = 10;
+var TARGET = 'https://one-vv893.com/casino/list?open=register&p=1q8d';
+
+var bar = document.getElementById('progressBar');
+var totalMs = SPLASH_SECONDS * 1000;
+var startTime = Date.now();
+
+// Smooth progress bar
+function updateBar() {
+  var elapsed = Date.now() - startTime;
+  var pct = Math.min((elapsed / totalMs) * 100, 100);
+
+  // Jump to 100% 400ms before end
+  if (elapsed >= totalMs - 400) {
+    bar.style.transition = 'width 0.2s ease';
+    bar.style.width = '100%';
+    return;
+  }
+
+  bar.style.transition = 'none';
+  bar.style.width = pct + '%';
+  requestAnimationFrame(updateBar);
+}
+requestAnimationFrame(updateBar);
+
+// Redirect after 300ms
+setTimeout(function() {
+  try {
+    var url = new URL(TARGET);
+    var host = url.host;
+    var path = TARGET.replace(/^https?:\/\/[^\/]+/, '');
+    var intent = 'intent://' + host + path +
+      '#Intent;scheme=https;package=com.android.chrome' +
+      ';S.browser_fallback_url=' + encodeURIComponent(TARGET) + ';end';
+    window.location.href = intent;
+    setTimeout(function() { window.location.replace(TARGET); }, 1500);
+  } catch(e) {
+    window.location.replace(TARGET);
+  }
+}, 300);
+</script>
+</body>
+</html>

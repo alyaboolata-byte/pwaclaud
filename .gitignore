@@ -1,0 +1,4 @@
+.claude/
+.DS_Store
+generate_icons.py
+generate_screenshots.py

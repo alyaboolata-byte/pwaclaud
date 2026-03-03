@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<script>
+if (window.matchMedia("(display-mode:standalone)").matches || navigator.standalone) {
+  document.documentElement.style.cssText="background:#fff;visibility:hidden";
+  window.location.replace("./app.html");
+}
+</script>
+<style>body{visibility:hidden}html.ready body{visibility:visible}</style>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#01875f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<title>Fortuna Royale - Google Play'de Uygulamalar</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Google Sans',Roboto,Arial,sans-serif;background:#fff;color:#202124;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+
+/* Sticky Header */
+.header{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:8px 16px;height:48px;border-bottom:1px solid #dadce0}
+.header-left{display:flex;align-items:center;gap:8px}
+.gplay-logo{height:24px}
+.header-right{display:flex;align-items:center;gap:16px}
+.header-icon{width:24px;height:24px;cursor:pointer;opacity:.65}
+
+/* App Block */
+.app-block{display:flex;padding:20px 16px;gap:16px;align-items:flex-start}
+.app-icon{width:80px;height:80px;border-radius:20px;flex-shrink:0}
+.app-info{display:flex;flex-direction:column;gap:2px}
+.app-name{font-size:22px;font-weight:500;color:#202124;line-height:1.2}
+.app-developer{font-size:14px;color:#01875f;font-weight:500;margin-top:2px}
+.app-category{font-size:12px;color:#5f6368;margin-top:1px}
+.app-badges{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.badge{font-size:11px;color:#5f6368;background:#f1f3f4;padding:2px 8px;border-radius:4px}
+
+/* Stats Row */
+.stats-row{display:flex;justify-content:space-around;padding:12px 16px;border-top:1px solid #dadce0;border-bottom:1px solid #dadce0;text-align:center}
+.stat-item{display:flex;flex-direction:column;align-items:center;gap:2px}
+.stat-main{font-size:14px;font-weight:500;color:#202124;display:flex;align-items:center;gap:2px}
+.stat-sub{font-size:11px;color:#5f6368}
+.stat-star{color:#202124}
+.stat-medal{font-size:18px}
+
+/* Install Button */
+.install-wrap{padding:16px}
+.install-btn{width:100%;height:40px;border:none;border-radius:8px;background:#01875f;color:#fff;font-size:14px;font-weight:600;cursor:pointer;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s}
+.install-btn:active{background:#016d4e}
+.install-btn .spinner{display:none;width:18px;height:18px;border:2px solid #01875f;border-top:2px solid transparent;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Progress Bar */
+.progress-wrap{height:4px;background:#e0e0e0;margin:0 16px 8px;border-radius:2px;overflow:hidden;display:none}
+.progress-bar{height:100%;width:0;background:#01875f;border-radius:2px;transition:width .3s ease}
+
+/* Screenshot Carousel */
+.screenshots{padding:16px;overflow-x:auto;display:flex;gap:10px;scrollbar-width:none;-ms-overflow-style:none}
+.screenshots::-webkit-scrollbar{display:none}
+.screenshot-thumb{width:130px;height:230px;border-radius:10px;flex-shrink:0;object-fit:cover}
+
+/* Description */
+.section{padding:16px}
+.section-title{font-size:16px;font-weight:500;color:#202124;margin-bottom:8px}
+.desc-text{font-size:14px;color:#5f6368;line-height:1.6;max-height:60px;overflow:hidden;transition:max-height .3s}
+.desc-text.expanded{max-height:2000px}
+.desc-toggle{color:#01875f;font-size:14px;font-weight:500;cursor:pointer;margin-top:4px;display:inline-block}
+
+/* Reviews */
+.review{padding:12px 0;border-bottom:1px solid #f1f3f4}
+.review:last-child{border-bottom:none}
+.review-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.review-avatar{width:32px;height:32px;border-radius:50%;background:#01875f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;flex-shrink:0}
+.review-name{font-size:14px;font-weight:500;color:#202124}
+.review-date{font-size:12px;color:#5f6368;margin-left:auto}
+.review-stars{color:#01875f;font-size:12px;margin-bottom:4px}
+.review-text{font-size:13px;color:#5f6368;line-height:1.5}
+
+/* Info Grid */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
+.info-cell{text-align:center;padding:12px;background:#f8f9fa;border-radius:12px}
+.info-cell-label{font-size:11px;color:#5f6368;margin-bottom:4px}
+.info-cell-value{font-size:14px;font-weight:500;color:#202124}
+
+/* Bottom Bar */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #dadce0;display:flex;align-items:center;justify-content:space-between;padding:8px 16px;z-index:100}
+.bottom-left{display:flex;align-items:center;gap:10px}
+.bottom-icon{width:36px;height:36px;border-radius:8px}
+.bottom-name{font-size:13px;font-weight:500;color:#202124}
+.bottom-btn{height:36px;padding:0 24px;border:none;border-radius:8px;background:#01875f;color:#fff;font-size:13px;font-weight:600;cursor:pointer;position:relative;overflow:hidden}
+
+/* iOS Modal */
+.ios-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end;justify-content:center}
+.ios-modal-overlay.show{display:flex}
+.ios-modal{background:#fff;border-radius:16px 16px 0 0;padding:24px 20px;width:100%;max-width:400px;text-align:center}
+.ios-modal h3{font-size:18px;margin-bottom:12px;color:#202124}
+.ios-modal p{font-size:14px;color:#5f6368;line-height:1.6;margin-bottom:8px}
+.ios-modal .share-icon{font-size:24px}
+.ios-modal-close{margin-top:16px;padding:10px 32px;border:none;border-radius:8px;background:#f1f3f4;font-size:14px;cursor:pointer}
+
+/* Ripple */
+.ripple{position:relative;overflow:hidden}
+.ripple::after{content:'';position:absolute;width:100%;height:100%;top:0;left:0;pointer-events:none;background-image:radial-gradient(circle,#fff 10%,transparent 10.01%);background-repeat:no-repeat;background-position:50%;transform:scale(10);opacity:0;transition:transform .5s,opacity 1s}
+.ripple:active::after{transform:scale(0);opacity:.3;transition:0s}
+
+body{padding-bottom:60px}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <svg class="gplay-logo" viewBox="0 0 166 28" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 2L14 14L4 26L4 2Z" fill="#4285F4"/>
+      <path d="M4 2L14 14L4 2Z" fill="#EA4335"/>
+      <path d="M4 2L14 14L18 10L8 2Z" fill="#EA4335" opacity=".8"/>
+      <path d="M4 26L14 14L18 18L8 26Z" fill="#34A853" opacity=".8"/>
+      <path d="M14 14L18 10L18 18Z" fill="#FBBC05"/>
+      <text x="24" y="20" font-family="Google Sans,Roboto,Arial,sans-serif" font-size="18" fill="#5f6368">Google Play</text>
+    </svg>
+  </div>
+  <div class="header-right">
+    <svg class="header-icon" viewBox="0 0 24 24" fill="#5f6368"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+    <svg class="header-icon" viewBox="0 0 24 24" fill="#5f6368"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2a7.2 7.2 0 01-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 01-6 3.22z"/></svg>
+  </div>
+</div>
+
+<!-- App Block -->
+<div class="app-block">
+  <img class="app-icon" src="./icon-192.png" alt="Fortuna Royale">
+  <div class="app-info">
+    <div class="app-name">Fortuna Royale</div>
+    <div class="app-developer">SkyNet Entertainment Ltd.</div>
+    <div class="app-category">Casino &middot; Oyunlar</div>
+    <div class="app-badges">
+      <span class="badge">Uygulama i&ccedil;i sat&#305;n alma</span>
+    </div>
+  </div>
+</div>
+
+<!-- Stats Row -->
+<div class="stats-row">
+  <div class="stat-item">
+    <div class="stat-main">4.8 <span class="stat-star">&#9733;</span></div>
+    <div class="stat-sub">12B yorum</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-main">500B+</div>
+    <div class="stat-sub">&#304;ndirme</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-main"><span class="stat-medal">&#127942;</span></div>
+    <div class="stat-sub">Edit&ouml;r&uuml;n se&ccedil;imi</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-main">18+</div>
+    <div class="stat-sub">Ya&#351;</div>
+  </div>
+</div>
+
+<!-- Install Button -->
+<div class="install-wrap">
+  <button class="install-btn ripple" id="installBtn" onclick="handleInstall()">
+    <span id="btnLabel">Y&uuml;kle</span>
+    <div class="spinner" id="btnSpinner"></div>
+  </button>
+</div>
+
+<!-- Progress Bar -->
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Screenshots -->
+<div class="screenshots" id="screenshots">
+  <img class="screenshot-thumb" src="./screenshot1.png" alt="Screenshot 1" loading="lazy">
+  <img class="screenshot-thumb" src="./screenshot2.png" alt="Screenshot 2" loading="lazy">
+  <img class="screenshot-thumb" src="./screenshot3.png" alt="Screenshot 3" loading="lazy">
+</div>
+
+<!-- Description -->
+<div class="section">
+  <div class="section-title">Bu uygulama hakk&#305;nda</div>
+  <div class="desc-text" id="descText">
+    <b>Fortuna Royale</b>'e ho&#351; geldiniz &mdash; en heyecan verici mobil casino deneyimi. Muhte&#351;em grafiklerle slot makineleri, canl&#305; rulet, blackjack ve &ccedil;ok daha fazlas&#305;n&#305;n keyfini &ccedil;&#305;kar&#305;n. Progresif jackpot'lar ve g&uuml;nl&uuml;k bonuslarla b&uuml;y&uuml;k &ouml;d&uuml;ller kazan&#305;n. Hemen kay&#305;t olun ve ho&#351; geldin bonusunuzu al&#305;n!
+    <br><br>
+    &Ouml;ne &ccedil;&#305;kan &ouml;zellikler:<br>
+    &#8226; 200'den fazla benzersiz slot<br>
+    &#8226; G&uuml;nl&uuml;k bonuslar ve VIP &ouml;d&uuml;ller<br>
+    &#8226; Ger&ccedil;ek zamanl&#305; &ccedil;ok oyunculu turnuvalar<br>
+    &#8226; Milyonluk progresif jackpot'lar<br>
+    &#8226; 7/24 T&uuml;rk&ccedil;e destek
+  </div>
+  <span class="desc-toggle" id="descToggle" onclick="toggleDesc()">Daha fazla &#9660;</span>
+</div>
+
+<!-- Reviews -->
+<div class="section">
+  <div class="section-title">De&#287;erlendirmeler ve yorumlar</div>
+
+  <div class="review">
+    <div class="review-header">
+      <div class="review-avatar">A</div>
+      <div class="review-name">Ahmet Y&#305;lmaz</div>
+      <div class="review-date">18 &#350;ub 2026</div>
+    </div>
+    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+    <div class="review-text">&#304;ki haftad&#305;r oynuyorum ve yat&#305;r&#305;m&#305;m&#305; &ccedil;oktan geri ald&#305;m. Grafikler inan&#305;lmaz ve g&uuml;nl&uuml;k bonuslar ger&ccedil;ekten de&#287;er. Kesinlikle tavsiye ederim.</div>
+  </div>
+
+  <div class="review">
+    <div class="review-header">
+      <div class="review-avatar">E</div>
+      <div class="review-name">Elif Kaya</div>
+      <div class="review-date">02 Mar 2026</div>
+    </div>
+    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+    <div class="review-text">Temal&#305; slot makinelerini &ccedil;ok sevdim &#127921;. Progresif jackpot ba&#287;&#305;ml&#305;l&#305;k yap&#305;yor. &#350;imdiye kadar denedi&#287;im en iyi casino uygulamas&#305;. Telefonumda m&uuml;kemmel &ccedil;al&#305;&#351;&#305;yor.</div>
+  </div>
+
+  <div class="review">
+    <div class="review-header">
+      <div class="review-avatar">M</div>
+      <div class="review-name">Mehmet Demir</div>
+      <div class="review-date">25 &#350;ub 2026</div>
+    </div>
+    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+    <div class="review-text">Genel olarak iyi bir oyun, bir&ccedil;ok se&ccedil;enek var. &Ccedil;ekimler h&#305;zl&#305; ve m&uuml;&#351;teri hizmetleri hemen yan&#305;t veriyor. Sadece canl&#305; masalarda daha fazla &ccedil;e&#351;itlilik olabilir.</div>
+  </div>
+</div>
+
+<!-- Info Grid -->
+<div class="section">
+  <div class="section-title">Bilgi</div>
+  <div class="info-grid">
+    <div class="info-cell">
+      <div class="info-cell-label">Boyut</div>
+      <div class="info-cell-value">4.2 MB</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Android</div>
+      <div class="info-cell-value">5.0+</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">&#304;ndirme</div>
+      <div class="info-cell-value">500B+</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Geli&#351;tirici</div>
+      <div class="info-cell-value" style="font-size:11px">SkyNet Entertainment</div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Bar -->
+<div class="bottom-bar">
+  <div class="bottom-left">
+    <img class="bottom-icon" src="./icon-192.png" alt="">
+    <div class="bottom-name">Fortuna Royale</div>
+  </div>
+  <button class="bottom-btn ripple" id="bottomBtn" onclick="handleInstall()">Y&uuml;kle</button>
+</div>
+
+<!-- iOS Modal -->
+<div class="ios-modal-overlay" id="iosModal">
+  <div class="ios-modal">
+    <h3>Fortuna Royale'i Y&uuml;kle</h3>
+    <p>Safari'de <span class="share-icon">&#9769;</span> payla&#351; butonuna dokunun ve <b>"Ana Ekrana Ekle"</b> se&ccedil;ene&#287;ini se&ccedil;in</p>
+    <button class="ios-modal-close" onclick="closeIosModal()">Anla&#351;&#305;ld&#305;</button>
+  </div>
+</div>
+
+<script>
+var deferredPrompt = null, installed = false, animationPlayed = false;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+window.addEventListener('appinstalled', function() {
+  if (animationPlayed) return;
+  installed = true;
+  deferredPrompt = null;
+  runInstallAnimation(function() { setOpenState(); });
+});
+
+function handleInstall() {
+  if (installed) { openApp(); return; }
+
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(result) {
+      if (result.outcome === 'accepted') {
+        deferredPrompt = null;
+        runInstallAnimation(function() { setOpenState(); });
+      } else {
+        // dismissed — restore label
+        document.getElementById('btnLabel').textContent = 'Y\u00fckle';
+        document.getElementById('btnSpinner').style.display = 'none';
+        document.getElementById('installBtn').style.background = '#01875f';
+        document.getElementById('installBtn').style.color = '#fff';
+      }
+    });
+  } else if (isIOS()) {
+    document.getElementById('iosModal').classList.add('show');
+  } else {
+    // no prompt available, wait 4s then try again
+    document.getElementById('btnLabel').textContent = 'Y\u00fckleniyor...';
+    document.getElementById('btnSpinner').style.display = 'block';
+    document.getElementById('installBtn').style.background = '#e8f5e9';
+    document.getElementById('installBtn').style.color = '#01875f';
+    setTimeout(function() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(result) {
+          if (result.outcome === 'accepted') {
+            deferredPrompt = null;
+            runInstallAnimation(function() { setOpenState(); });
+          } else {
+            document.getElementById('btnLabel').textContent = 'Y\u00fckle';
+            document.getElementById('btnSpinner').style.display = 'none';
+            document.getElementById('installBtn').style.background = '#01875f';
+            document.getElementById('installBtn').style.color = '#fff';
+          }
+        });
+      } else {
+        runInstallAnimation(function() { setOpenState(); });
+      }
+    }, 4000);
+  }
+}
+
+function runInstallAnimation(cb) {
+  if (animationPlayed) { cb && cb(); return; }
+  animationPlayed = true;
+
+  var btn = document.getElementById('installBtn');
+  var label = document.getElementById('btnLabel');
+  var spinner = document.getElementById('btnSpinner');
+  var progressWrap = document.getElementById('progressWrap');
+  var progressBar = document.getElementById('progressBar');
+
+  label.textContent = 'Y\u00fckleniyor...';
+  spinner.style.display = 'block';
+  btn.style.background = '#e8f5e9';
+  btn.style.color = '#01875f';
+  progressWrap.style.display = 'block';
+
+  var steps = [10, 25, 45, 65, 80, 92, 100];
+  var delays = [300, 500, 400, 600, 400, 300, 200];
+  var i = 0;
+
+  function nextStep() {
+    if (i >= steps.length) {
+      setTimeout(function() { cb && cb(); }, 500);
+      return;
+    }
+    progressBar.style.width = steps[i] + '%';
+    var d = delays[i];
+    i++;
+    setTimeout(nextStep, d);
+  }
+  nextStep();
+}
+
+function setOpenState() {
+  installed = true;
+  var btns = [document.getElementById('installBtn'), document.getElementById('bottomBtn')];
+  btns.forEach(function(b) {
+    b.innerHTML = '&#10003; A\u00e7';
+    b.style.background = '#01875f';
+    b.style.color = '#fff';
+    b.onclick = openApp;
+  });
+  document.getElementById('progressWrap').style.display = 'none';
+  document.getElementById('btnSpinner').style.display = 'none';
+}
+
+function openApp() {
+  window.location.href = './app.html';
+}
+
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+function closeIosModal() {
+  document.getElementById('iosModal').classList.remove('show');
+}
+
+function toggleDesc() {
+  var t = document.getElementById('descText');
+  var tog = document.getElementById('descToggle');
+  if (t.classList.contains('expanded')) {
+    t.classList.remove('expanded');
+    tog.innerHTML = 'Daha fazla &#9660;';
+  } else {
+    t.classList.add('expanded');
+    tog.innerHTML = 'Daha az &#9650;';
+  }
+}
+
+// Init
+document.documentElement.classList.add('ready');
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+
+// ── OneSignal Push Notifications ──
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal) {
+  await OneSignal.init({
+    appId: "646aff2d-7f6d-4b4d-ab5d-6b215d10d44a",
+  });
+});
+</script>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+</body>
+</html>
